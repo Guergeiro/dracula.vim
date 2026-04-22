@@ -29,73 +29,44 @@ if !(has('termguicolors') && &termguicolors) && !has('gui_running') && &t_Co != 
   finish
 endif
 
-let s:is_dark=(&background ==# 'dark')
+let s:is_dark = (&background ==# 'dark')
+let s:palette = dracula#current_palette()
 
 " Palette: {{{2
 
-if s:is_dark
-  let s:fg        = g:dracula#palette.fg
+let s:fg        = s:palette.fg
 
-  let s:bglighter = g:dracula#palette.bglighter
-  let s:bglight   = g:dracula#palette.bglight
-  let s:bg        = g:dracula#palette.bg
-  let s:bgdark    = g:dracula#palette.bgdark
-  let s:bgdarker  = g:dracula#palette.bgdarker
+let s:bglighter = s:palette.bglighter
+let s:bglight   = s:palette.bglight
+let s:bg        = s:palette.bg
+let s:bgdark    = s:palette.bgdark
+let s:bgdarker  = s:palette.bgdarker
 
-  let s:comment   = g:dracula#palette.comment
-  let s:selection = g:dracula#palette.selection
-  let s:subtle    = g:dracula#palette.subtle
+let s:comment   = s:palette.comment
+let s:selection = s:palette.selection
+let s:subtle    = s:palette.subtle
 
-  let s:cyan      = g:dracula#palette.cyan
-  let s:green     = g:dracula#palette.green
-  let s:orange    = g:dracula#palette.orange
-  let s:pink      = g:dracula#palette.pink
-  let s:purple    = g:dracula#palette.purple
-  let s:red       = g:dracula#palette.red
-  let s:yellow    = g:dracula#palette.yellow
-else
-  let s:fg        = g:alucard#palette.fg
-
-  let s:bglighter = g:alucard#palette.bglighter
-  let s:bglight   = g:alucard#palette.bglight
-  let s:bg        = g:alucard#palette.bg
-  let s:bgdark    = g:alucard#palette.bgdark
-  let s:bgdarker  = g:alucard#palette.bgdarker
-
-  let s:comment   = g:alucard#palette.comment
-  let s:selection = g:alucard#palette.selection
-  let s:subtle    = g:alucard#palette.subtle
-
-  let s:cyan      = g:alucard#palette.cyan
-  let s:green     = g:alucard#palette.green
-  let s:orange    = g:alucard#palette.orange
-  let s:pink      = g:alucard#palette.pink
-  let s:purple    = g:alucard#palette.purple
-  let s:red       = g:alucard#palette.red
-  let s:yellow    = g:alucard#palette.yellow
-endif
+let s:cyan      = s:palette.cyan
+let s:green     = s:palette.green
+let s:orange    = s:palette.orange
+let s:pink      = s:palette.pink
+let s:purple    = s:palette.purple
+let s:red       = s:palette.red
+let s:yellow    = s:palette.yellow
 
 
 let s:none      = ['NONE', 'NONE']
 
 if has('nvim')
   for s:i in range(16)
-    if s:is_dark
-      let g:terminal_color_{s:i} = g:dracula#palette['color_' . s:i]
-    else
-      let g:terminal_color_{s:i} = g:alucard#palette['color_' . s:i]
-    endif
+    let g:terminal_color_{s:i} = s:palette['color_' . s:i]
   endfor
 endif
 
 if has('terminal')
   let g:terminal_ansi_colors = []
   for s:i in range(16)
-    if s:is_dark
-      call add(g:terminal_ansi_colors, g:dracula#palette['color_' . s:i])
-    else
-      call add(g:terminal_ansi_colors, g:alucard#palette['color_' . s:i])
-    endif
+    call add(g:terminal_ansi_colors, s:palette['color_' . s:i])
   endfor
 endif
 
@@ -190,6 +161,7 @@ call s:h('DraculaBgDark', s:none, s:bgdark)
 call s:h('DraculaBgDarker', s:none, s:bgdarker)
 
 call s:h('DraculaFg', s:fg)
+call s:h('DraculaFgItalic', s:fg, s:none, [s:attrs.italic])
 call s:h('DraculaFgUnderline', s:fg, s:none, [s:attrs.underline])
 call s:h('DraculaFgBold', s:fg, s:none, [s:attrs.bold])
 call s:h('DraculaFgStrikethrough', s:fg, s:none, [s:attrs.strikethrough])
@@ -398,38 +370,38 @@ hi! link SpellLocal DraculaWarnLine
 hi! link SpellCap DraculaInfoLine
 hi! link SpellRare DraculaInfoLine
 
-hi! link Constant DraculaPurple
-hi! link String DraculaYellow
-hi! link Character DraculaPink
+call s:h('Constant', s:purple)
+call s:h('String', s:yellow)
+call s:h('Character', s:pink)
 hi! link Number Constant
 hi! link Boolean Constant
 hi! link Float Constant
 
-hi! link Identifier DraculaFg
-hi! link Function DraculaGreen
+call s:h('Identifier', s:fg)
+call s:h('Function', s:green)
 
-hi! link Statement DraculaPink
-hi! link Conditional DraculaPink
-hi! link Repeat DraculaPink
-hi! link Label DraculaPink
-hi! link Operator DraculaPink
-hi! link Keyword DraculaPink
-hi! link Exception DraculaPink
+call s:h('Statement', s:pink)
+hi! link Conditional Statement
+hi! link Repeat Statement
+hi! link Label Statement
+hi! link Operator Statement
+call s:h('Keyword', s:pink)
+hi! link Exception Statement
 
-hi! link PreProc DraculaPink
-hi! link Include DraculaPink
-hi! link Define DraculaPink
-hi! link Macro DraculaPink
-hi! link PreCondit DraculaPink
-hi! link StorageClass DraculaPink
-hi! link Structure DraculaPink
-hi! link Typedef DraculaPink
+call s:h('PreProc', s:pink)
+hi! link Include PreProc
+hi! link Define PreProc
+hi! link Macro PreProc
+hi! link PreCondit PreProc
+hi! link StorageClass PreProc
+hi! link Structure PreProc
+hi! link Typedef PreProc
 
-hi! link Type DraculaCyanItalic
+call s:h('Type', s:cyan, s:none, [s:attrs.italic])
 
-hi! link Delimiter DraculaFg
+call s:h('Delimiter', s:fg)
 
-hi! link Special DraculaPink
+call s:h('Special', s:pink)
 hi! link SpecialComment DraculaCyanItalic
 hi! link Tag DraculaCyan
 hi! link helpHyperTextJump DraculaLink
@@ -938,7 +910,7 @@ if has('nvim')
     hi! link @module.builtin Special
     " # Functions
     hi! link @function.builtin DraculaCyan
-    hi! link @funcion.macro Function
+    hi! link @function.macro Function
     hi! link @function Function
     hi! link @parameter DraculaOrangeItalic
     hi! link @parameter.reference DraculaOrange

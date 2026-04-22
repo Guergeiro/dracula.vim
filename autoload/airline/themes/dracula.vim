@@ -14,8 +14,9 @@
 " more attr-list items as input, transforms it to the format accepted by
 " airline#themes#generate_color_map and returns that value
 func! s:clr(fg, bg, ...)
-  let l:fg = g:dracula#palette[a:fg]
-  let l:bg = g:dracula#palette[a:bg]
+  let l:palette = dracula#current_palette()
+  let l:fg = l:palette[a:fg]
+  let l:bg = l:palette[a:bg]
   return [ l:fg[0], l:bg[0], l:fg[1], l:bg[1] ] +
        \ filter(copy(a:000), 'type(v:val) == 1 && len(v:val) > 0')
 endfunc
