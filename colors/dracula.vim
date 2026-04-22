@@ -29,40 +29,73 @@ if !(has('termguicolors') && &termguicolors) && !has('gui_running') && &t_Co != 
   finish
 endif
 
+let s:is_dark=(&background ==# 'dark')
+
 " Palette: {{{2
 
-let s:fg        = g:dracula#palette.fg
+if s:is_dark
+  let s:fg        = g:dracula#palette.fg
 
-let s:bglighter = g:dracula#palette.bglighter
-let s:bglight   = g:dracula#palette.bglight
-let s:bg        = g:dracula#palette.bg
-let s:bgdark    = g:dracula#palette.bgdark
-let s:bgdarker  = g:dracula#palette.bgdarker
+  let s:bglighter = g:dracula#palette.bglighter
+  let s:bglight   = g:dracula#palette.bglight
+  let s:bg        = g:dracula#palette.bg
+  let s:bgdark    = g:dracula#palette.bgdark
+  let s:bgdarker  = g:dracula#palette.bgdarker
 
-let s:comment   = g:dracula#palette.comment
-let s:selection = g:dracula#palette.selection
-let s:subtle    = g:dracula#palette.subtle
+  let s:comment   = g:dracula#palette.comment
+  let s:selection = g:dracula#palette.selection
+  let s:subtle    = g:dracula#palette.subtle
 
-let s:cyan      = g:dracula#palette.cyan
-let s:green     = g:dracula#palette.green
-let s:orange    = g:dracula#palette.orange
-let s:pink      = g:dracula#palette.pink
-let s:purple    = g:dracula#palette.purple
-let s:red       = g:dracula#palette.red
-let s:yellow    = g:dracula#palette.yellow
+  let s:cyan      = g:dracula#palette.cyan
+  let s:green     = g:dracula#palette.green
+  let s:orange    = g:dracula#palette.orange
+  let s:pink      = g:dracula#palette.pink
+  let s:purple    = g:dracula#palette.purple
+  let s:red       = g:dracula#palette.red
+  let s:yellow    = g:dracula#palette.yellow
+else
+  let s:fg        = g:alucard#palette.fg
+
+  let s:bglighter = g:alucard#palette.bglighter
+  let s:bglight   = g:alucard#palette.bglight
+  let s:bg        = g:alucard#palette.bg
+  let s:bgdark    = g:alucard#palette.bgdark
+  let s:bgdarker  = g:alucard#palette.bgdarker
+
+  let s:comment   = g:alucard#palette.comment
+  let s:selection = g:alucard#palette.selection
+  let s:subtle    = g:alucard#palette.subtle
+
+  let s:cyan      = g:alucard#palette.cyan
+  let s:green     = g:alucard#palette.green
+  let s:orange    = g:alucard#palette.orange
+  let s:pink      = g:alucard#palette.pink
+  let s:purple    = g:alucard#palette.purple
+  let s:red       = g:alucard#palette.red
+  let s:yellow    = g:alucard#palette.yellow
+endif
+
 
 let s:none      = ['NONE', 'NONE']
 
 if has('nvim')
   for s:i in range(16)
-    let g:terminal_color_{s:i} = g:dracula#palette['color_' . s:i]
+    if s:is_dark
+      let g:terminal_color_{s:i} = g:dracula#palette['color_' . s:i]
+    else
+      let g:terminal_color_{s:i} = g:alucard#palette['color_' . s:i]
+    endif
   endfor
 endif
 
 if has('terminal')
   let g:terminal_ansi_colors = []
   for s:i in range(16)
-    call add(g:terminal_ansi_colors, g:dracula#palette['color_' . s:i])
+    if s:is_dark
+      call add(g:terminal_ansi_colors, g:dracula#palette['color_' . s:i])
+    else
+      call add(g:terminal_ansi_colors, g:alucard#palette['color_' . s:i])
+    endif
   endfor
 endif
 
@@ -227,7 +260,24 @@ call s:h('DraculaInlayHint', s:comment, s:bgdark)
 " }}}
 " User Interface: {{{
 
-set background=dark
+" Correct background (see issue #7):
+" --- Problem with changing between dark and light on 256 color terminal
+" --- https://github.com/morhetz/gruvbox/issues/7
+if exists('v:vim_did_enter')
+  let g:dracula_vim_did_enter = v:vim_did_enter
+else
+  augroup DraculaVimEnter
+    au!
+    autocmd VimEnter * let g:dracula_vim_did_enter = 1
+  augroup End
+endif
+if get(g:, 'dracula_vim_did_enter', 0)
+  if s:is_dark
+    set background=dark
+  else
+    set background=light
+  endif
+endif
 
 " Required as some plugins will overwrite
 call s:h('Normal', s:fg, g:dracula_colorterm || has('gui_running') ? s:bg : s:none )

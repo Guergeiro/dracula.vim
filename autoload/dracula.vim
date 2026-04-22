@@ -1,4 +1,4 @@
-" Palette: {{{
+" Dracula Palette: {{{
 
 let g:dracula#palette           = {}
 let g:dracula#palette.fg        = ['#F8F8F2', 253]
@@ -40,6 +40,51 @@ let g:dracula#palette.color_12 = '#D6ACFF'
 let g:dracula#palette.color_13 = '#FF92DF'
 let g:dracula#palette.color_14 = '#A4FFFF'
 let g:dracula#palette.color_15 = '#FFFFFF'
+
+" }}}
+
+" Alucard Palette: {{{
+
+let g:alucard#palette           = {}
+let g:alucard#palette.fg        = ['#1F1F1F', 232]
+
+let g:alucard#palette.bglighter = ['#ECE9DF', 253]
+let g:alucard#palette.bglight   = ['#DEDCCF', 252]
+let g:alucard#palette.bg        = ['#FFFBEB', 230]
+let g:alucard#palette.bgdark    = ['#CECCC0', 250]
+let g:alucard#palette.bgdarker  = ['#BCBAB3', 249]
+
+let g:alucard#palette.comment   = ['#6C664B', 144]
+let g:alucard#palette.selection = ['#CFCFDE', 188]
+let g:alucard#palette.subtle    = ['#ECE9DF', 253]
+
+let g:alucard#palette.cyan      = ['#036A96',  24]
+let g:alucard#palette.green     = ['#14710A',  22]
+let g:alucard#palette.orange    = ['#A34D14', 130]
+let g:alucard#palette.pink      = ['#A3144D', 125]
+let g:alucard#palette.purple    = ['#644AC9',  98]
+let g:alucard#palette.red       = ['#CB3A2A', 160]
+let g:alucard#palette.yellow    = ['#846E15', 100]
+
+"
+" ANSI
+"
+let g:alucard#palette.color_0  = '#FFFBEB'
+let g:alucard#palette.color_1  = '#CB3A2A'
+let g:alucard#palette.color_2  = '#14710A'
+let g:alucard#palette.color_3  = '#846E15'
+let g:alucard#palette.color_4  = '#644AC9'
+let g:alucard#palette.color_5  = '#A3144D'
+let g:alucard#palette.color_6  = '#036A96'
+let g:alucard#palette.color_7  = '#1F1F1F'
+let g:alucard#palette.color_8  = '#6C664B'
+let g:alucard#palette.color_9  = '#D74C3D'
+let g:alucard#palette.color_10 = '#198D0C'
+let g:alucard#palette.color_11 = '#9E841A'
+let g:alucard#palette.color_12 = '#7862D0'
+let g:alucard#palette.color_13 = '#BF185A'
+let g:alucard#palette.color_14 = '#047FB4'
+let g:alucard#palette.color_15 = '#2C2B31'
 
 " }}}
 
